@@ -10,16 +10,8 @@
   }
   @else {
     <div class="button-group row vertical-center">
-      @if (!showResetButtonRow){
-        <button class="button" (click)="showResetButtonRow = !showResetButtonRow">Neustart</button>
-        <button class="button" (click)="newGame($event)">Neues Spiel</button>
-      }
-
-      @if(showResetButtonRow){
-        <span>Wirklich neustarten?</span>
-        <button class="button" (click)="reset($event); showResetButtonRow = !showResetButtonRow;">Ja</button>
-        <button class="button" (click)="showResetButtonRow = !showResetButtonRow">Nein</button>
-      }
+      <button class="button" (click)="restart()">Neustart</button>
+      <button class="button" (click)="newGame($event)">Neues Spiel</button>
     </div>
     <app-sudoku-grid/>
     <app-number-selector/>

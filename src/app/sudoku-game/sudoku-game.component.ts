@@ -4,6 +4,8 @@ import { GameService } from '../shared/services/game.service';
 import { LoadingComponent } from "../loading/loading.component";
 import { NumberSelectorComponent } from "../number-selector/number-selector.component";
 import { SudokuFetchInterface } from '../shared/interfaces/sudoku-fetch.interface';
+import { DialogService } from '../shared/services/dialog.service';
+import { RestartDialogComponent } from '../restart-dialog/restart-dialog.component';
 
 @Component({
   selector: 'app-sudoku-game',
@@ -16,14 +18,14 @@ import { SudokuFetchInterface } from '../shared/interfaces/sudoku-fetch.interfac
 })
 export class SudokuGameComponent {
   gameService = inject(GameService);
+  dialogService = inject(DialogService);
 
   @Input() sudokuFetch: SudokuFetchInterface | null = null;
 
   showResetButtonRow = false;
 
-  reset(event: Event){
-    this.gameService.resetGame();
-    (event.target as HTMLButtonElement).blur();
+  restart(){
+    this.dialogService.open(RestartDialogComponent);
   }
 
   newGame(event: Event){

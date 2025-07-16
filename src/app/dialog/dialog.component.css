@@ -1,0 +1,19 @@
+.dialog {
+  border: 2px solid white;
+  border-radius: 8px;
+  width: 80vw;
+  max-width: 80vw;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  background-color: rgb(71, 71, 71);
+}
+
+.dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 10px;
+}

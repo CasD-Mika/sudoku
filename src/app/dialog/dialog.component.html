@@ -1,0 +1,11 @@
+<dialog #dialog class="dialog">
+  <div class="dialog-content">
+    @if (currentComponent){
+      <ng-container>
+        <ng-container
+          *ngComponentOutlet="currentComponent; injector: createInjector()"
+        ></ng-container>
+      </ng-container>
+    }
+  </div>
+</dialog>

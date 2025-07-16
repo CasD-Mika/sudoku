@@ -2,12 +2,14 @@ import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
 import { DosukuHttpService } from './shared/services/dosuku.service';
 import { GameService } from './shared/services/game.service';
+import { DialogService } from './shared/services/dialog.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideHttpClient(),
     DosukuHttpService,
-    GameService
+    GameService,
+    DialogService
   ]
 };

@@ -112,7 +112,7 @@ export class GameService {
     this.invalidInputTrigger.next(null);
   }
 
-  resetGame() {
+  restartGame() {
     const sudoku = this.sudokuSubject.value;
     if (!sudoku) return;
 
