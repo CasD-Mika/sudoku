@@ -1,0 +1,28 @@
+<div class="column">
+  @if (gameService.sudoku$ | async; as sudoku) {
+    @if ({
+      selectedCell: gameService.selectedCell$ | async,
+      invalidInput: gameService.invalidInput$ | async
+     }; as asyncData) {
+      @if (sudoku.newboard && sudoku.newboard.grids && sudoku.newboard.grids.length === 1){
+        @for (row of sudoku.newboard.grids[0].value; track $index; let rowIndex = $index){
+          <div class="row">
+            @for (column of row; track $index; let columnIndex = $index){
+              <app-sudoku-cell
+                [ngClass]="{
+                  'divider-left': columnIndex !== 0 && columnIndex % 3 === 0,
+                  'divider-top': rowIndex !== 0 && rowIndex % 3 === 0
+                }"
+                class="padding-3"
+                [cellNumber]="getCellNumber(asyncData.invalidInput, rowIndex, columnIndex, column)"
+                [selected]="isSelected(asyncData.selectedCell, rowIndex, columnIndex, column)"
+                [marked]="isMarked(asyncData.selectedCell, rowIndex, columnIndex)"
+                [invalid]="isInvalid(asyncData.invalidInput, rowIndex, columnIndex)"
+                (click)="gameService.setSelectedCell({rowIndex, columnIndex, number: column})"/>
+            }
+          </div>
+        }
+      }
+    }
+  }
+</div>

@@ -1,0 +1,19 @@
+@if (sudokuFetch !== null){
+  @if (sudokuFetch.loading){
+    <app-loading/>
+  }
+  @else if (sudokuFetch.error) {
+    <div class="column">
+      <p>There was an error loading the game.</p>
+      <button class="button" (click)="newGame($event)">Try again</button>
+    </div>
+  }
+  @else {
+    <div class="button-group">
+      <button class="button" (click)="reset($event)">Reset</button>
+      <button class="button" (click)="newGame($event)">New Game</button>
+    </div>
+    <app-sudoku-grid/>
+    <app-number-selector/>
+  }
+}

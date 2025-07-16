@@ -1,0 +1,26 @@
+@if({
+  selectedCell: gameService.selectedCell$ | async
+}; as asyncData){
+  <div class="column center">
+    <div class="row center numbers-row">
+      @for(number of firstRow; track number) {
+        <app-sudoku-cell
+          [cellNumber]="number"
+          [selected]="isSelected(number, asyncData.selectedCell)"
+          [marked]="false"
+          [invalid]="false"
+          (click)="onClick(number, asyncData.selectedCell)"/>
+      }
+    </div>
+    <div class="row center numbers-row">
+      @for(number of secondRow; track number) {
+        <app-sudoku-cell
+          [cellNumber]="number"
+          [selected]="isSelected(number, asyncData.selectedCell)"
+          [marked]="false"
+          [invalid]="false"
+          (click)="onClick(number, asyncData.selectedCell)"/>
+      }
+    </div>
+  </div>
+}

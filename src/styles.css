@@ -1,1 +1,93 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body {
+  background-color: rgb(71, 71, 71);
+  color: white;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  height: 100%;
+  touch-action: none;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+
+  &.center{
+    justify-content: center;
+  }
+
+  &.vertical-center{
+    align-items: center;
+  }
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+
+  &.center{
+    align-items: center;
+  }
+
+  &.vertical-center{
+    justify-content: center;
+  }
+}
+
+.full-height {
+  height: 100%;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.padding-3{
+  padding: 3px;
+}
+
+.unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.header {
+  flex: 0 0 auto;
+}
+
+.content {
+  flex: 1 1 auto;
+  margin-top: 20px;
+}
+
+.sudoku-title {
+  background: orange;
+  color: black;
+  font-family: inherit;
+  padding: 0.1em 0.5em;
+  font-weight: 900;
+  font-size: 50px;
+  border: 3px solid black;
+  border-radius: 0.4em;
+  box-shadow: 0.1em 0.1em;
+  margin: 20px;
+}
+
+.padding-10 {
+  padding: 10px;
+}

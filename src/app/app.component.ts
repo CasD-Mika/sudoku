@@ -1,13 +1,17 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { SudokuGameComponent } from './sudoku-game/sudoku-game.component';
+import { GameService } from './shared/services/game.service';
+import { AsyncPipe, NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
+  standalone: true,
+  imports: [
+    SudokuGameComponent, AsyncPipe, NgClass
+  ]
 })
 export class AppComponent {
-  title = 'sudoku';
+  gameService = inject(GameService);
 }

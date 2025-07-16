@@ -1,0 +1,13 @@
+<div
+  [class]="'row center vertical-center unselectable ' + 'cell-' + cellNumber"
+  [ngClass]="{
+    'cell': !selected,
+    'cell-selected': selected,
+    'cell-marked': marked,
+    'cell-invalid': invalid
+  }"
+>
+  @if(cellNumber !== 0){
+    {{cellNumber}}
+  }
+</div>

@@ -1,0 +1,38 @@
+.cell{
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  font-size: 20px;
+}
+
+.cell-marked{
+  width: 30px;
+  height: 30px;
+  border: 2px solid white;
+  border-radius: 10px;
+  font-size: 20px;
+}
+
+.cell-selected{
+  width: 26px;
+  height: 26px;
+  border: 4px solid white;
+  border-radius: 10px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.cell-invalid{
+  text-decoration: line-through;
+}
+
+.cell-0  { background-color: rgb(127, 127, 127); }
+.cell-1  { background-color: rgb(149, 8, 8); }
+.cell-2  { background-color: orange; }
+.cell-3  { background-color: rgb(67, 150, 178); }
+.cell-4  { background-color: rgb(59, 193, 177); }
+.cell-5  { background-color: green; }
+.cell-6  { background-color: rgb(216, 48, 84); }
+.cell-7  { background-color: rgb(46, 46, 185); }
+.cell-8  { background-color: rgb(221, 112, 210); }
+.cell-9  { background-color: purple; }
