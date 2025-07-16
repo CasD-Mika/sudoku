@@ -19,6 +19,8 @@ export class SudokuGameComponent {
 
   @Input() sudokuFetch: SudokuFetchInterface | null = null;
 
+  showResetButtonRow = false;
+
   reset(event: Event){
     this.gameService.resetGame();
     (event.target as HTMLButtonElement).blur();
