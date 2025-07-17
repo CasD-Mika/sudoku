@@ -142,6 +142,15 @@ export class GameService {
     }
 
     if (!this.selectedCellSubject.value){
+      if (cell.number !== 0){
+        this.selectedCellSubject.next({
+          ...cell,
+          rowIndex: -1,
+          columnIndex: -1
+        });
+        return;
+      }
+
       this.selectedCellSubject.next(cell);
       return;
     }
@@ -162,6 +171,16 @@ export class GameService {
       this.selectedCellSubject.next(null);
       return;
     }
+
+    if (cell.number !== 0){
+      this.selectedCellSubject.next({
+        ...cell,
+        rowIndex: -1,
+        columnIndex: -1
+      });
+      return;
+    }
+
 
     this.selectedCellSubject.next(cell);
   }
