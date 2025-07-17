@@ -1,0 +1,11 @@
+<div class="dialog-title">Neues Spiel</div>
+<p class="padding-10">Wollen Sie wirklich ein neues Spiel starten? Der aktuelle Spielfortschritt geht verloren.</p>
+<div class="row button-group">
+  <button class="button blue" [ngClass]="{'inactive': selectedDifficulty !== 'Easy'}" (click)="setDifficulty('Easy')">Einfach</button>
+  <button class="button blue" [ngClass]="{'inactive': selectedDifficulty !== 'Medium'}" (click)="setDifficulty('Medium')">Mittel</button>
+  <button class="button blue" [ngClass]="{'inactive': selectedDifficulty !== 'Hard'}" (click)="setDifficulty('Hard')">Schwer</button>
+</div>
+<div class="row button-group padding-10">
+  <button class="button" (click)="newGame()">Neues Spiel</button>
+  <button class="button" (click)="close()">Abbrechen</button>
+</div>

@@ -5,13 +5,13 @@
   @else if (sudokuFetch.error) {
     <div class="column">
       <p>There was an error loading the game.</p>
-      <button class="button" (click)="newGame($event)">Try again</button>
+      <button class="button" (click)="newGame()">Try again</button>
     </div>
   }
   @else {
     <div class="button-group row vertical-center">
-      <button class="button" (click)="restart()">Neustart</button>
-      <button class="button" (click)="newGame($event)">Neues Spiel</button>
+      <button class="button" (click)="openRestartDialog()">Neustart</button>
+      <button class="button" (click)="openNewGameDialog()">Neues Spiel</button>
     </div>
     <app-sudoku-grid/>
     <app-number-selector/>

@@ -124,6 +124,11 @@ html, body {
   -webkit-user-select: none;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
+
+  &.inactive{
+    background-color: gray;
+    color: white;
+  }
 }
 
 @media (hover: hover){
@@ -139,6 +144,6 @@ html, body {
 }
 
 .button-group {
-  justify-content: space-between;
+  justify-content: space-around;
   margin: 1rem 0;
 }

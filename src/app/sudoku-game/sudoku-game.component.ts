@@ -6,6 +6,7 @@ import { NumberSelectorComponent } from "../number-selector/number-selector.comp
 import { SudokuFetchInterface } from '../shared/interfaces/sudoku-fetch.interface';
 import { DialogService } from '../shared/services/dialog.service';
 import { RestartDialogComponent } from '../restart-dialog/restart-dialog.component';
+import { NewGameDialogComponent } from '../new-game-dialog/new-game-dialog.component';
 
 @Component({
   selector: 'app-sudoku-game',
@@ -24,12 +25,15 @@ export class SudokuGameComponent {
 
   showResetButtonRow = false;
 
-  restart(){
+  openRestartDialog(){
     this.dialogService.open(RestartDialogComponent);
   }
 
-  newGame(event: Event){
+  openNewGameDialog(){
+    this.dialogService.open(NewGameDialogComponent);
+  }
+
+  newGame(){
     this.gameService.newGame();
-    (event.target as HTMLButtonElement).blur();
   }
 }

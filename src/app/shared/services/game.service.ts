@@ -4,12 +4,15 @@ import { BehaviorSubject, catchError, concatWith, map, mergeMap, Observable, of,
 import { DosukuHttpService } from "./dosuku.service";
 import { SudokuFetchInterface } from "../interfaces/sudoku-fetch.interface";
 import { CellInterface } from "../interfaces/cell.interface";
+import { Difficulties } from "../../new-game-dialog/new-game-dialog.component";
 
 @Injectable()
 export class GameService {
   private dosukuHttpService = inject(DosukuHttpService)
 
   private loadSudoku$ = new Subject<void>();
+
+  difficulty: Difficulties = 'Medium';
 
   sudokuSubject = new BehaviorSubject<SudokuInterface | null>(null);
 
@@ -18,7 +21,7 @@ export class GameService {
     switchMap(() =>
       of(<SudokuFetchInterface>{ sudoku: null, loading: true, error: null }).pipe(
         concatWith(
-          this.dosukuHttpService.getSingle<SudokuInterface>().pipe(
+          this.dosukuHttpService.getSingle<SudokuInterface>(this.difficulty).pipe(
             map(sudoku => {
               const grid = sudoku.newboard.grids[0];
               const defaultValue = structuredClone(grid.value);

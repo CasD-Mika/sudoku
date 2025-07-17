@@ -1,7 +1,8 @@
 <div class="container">
   <div class="row center header">
-    <div class="sudoku-title unselectable">
-      Sudoku
+    <div class="sudoku-title unselectable column center">
+      <span>Sudoku</span>
+      <span style="font-size: 15px;">{{gameService.difficulty}}</span>
     </div>
   </div>
   @if ({ sudokuFetch: gameService.sudokuFetch$ | async }; as asyncData){
