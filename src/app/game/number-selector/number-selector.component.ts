@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { SudokuCellComponent } from "../sudoku-cell/sudoku-cell.component";
 import { AsyncPipe } from '@angular/common';
-import { GameService } from '../shared/services/game.service';
-import { CellInterface } from '../shared/interfaces/cell.interface';
+import { GameService } from '../../shared/services/game.service';
+import { CellInterface } from '../../shared/interfaces/cell.interface';
 
 @Component({
   selector: 'app-number-selector',

@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { DialogService } from '../core/services/dialog.service';
-import { GameService } from '../shared/services/game.service';
+import { DialogService } from '../../../core/services/dialog.service';
+import { GameService } from '../../services/game.service';
 import { NgClass } from '@angular/common';
 import { take } from 'rxjs';
 

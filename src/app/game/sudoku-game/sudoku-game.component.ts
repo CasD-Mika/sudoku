@@ -1,12 +1,12 @@
 import { Component, inject, Input } from '@angular/core';
 import { SudokuGridComponent } from '../sudoku-grid/sudoku-grid.component';
-import { GameService } from '../shared/services/game.service';
-import { LoadingComponent } from "../loading/loading.component";
+import { GameService } from '../../shared/services/game.service';
+import { LoadingComponent } from "../../shared/components/loading/loading.component";
 import { NumberSelectorComponent } from "../number-selector/number-selector.component";
-import { SudokuFetchInterface } from '../shared/interfaces/sudoku-fetch.interface';
-import { DialogService } from '../core/services/dialog.service';
-import { RestartDialogComponent } from '../restart-dialog/restart-dialog.component';
-import { NewGameDialogComponent } from '../new-game-dialog/new-game-dialog.component';
+import { SudokuFetchInterface } from '../../shared/interfaces/sudoku-fetch.interface';
+import { DialogService } from '../../core/services/dialog.service';
+import { RestartDialogComponent } from '../../shared/components/restart-dialog/restart-dialog.component';
+import { NewGameDialogComponent } from '../../shared/components/new-game-dialog/new-game-dialog.component';
 
 @Component({
   selector: 'app-sudoku-game',

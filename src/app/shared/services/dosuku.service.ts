@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Difficulties } from '../../new-game-dialog/new-game-dialog.component';
+import { Difficulties } from '../components/new-game-dialog/new-game-dialog.component';
 
 @Injectable()
 export class DosukuHttpService {

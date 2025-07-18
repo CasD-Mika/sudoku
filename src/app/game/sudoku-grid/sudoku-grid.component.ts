@@ -1,9 +1,9 @@
 import { Component, HostListener, inject } from '@angular/core';
 import { SudokuCellComponent } from '../sudoku-cell/sudoku-cell.component';
-import { GameService } from '../shared/services/game.service';
+import { GameService } from '../../shared/services/game.service';
 import { AsyncPipe, NgClass } from '@angular/common';
-import { CellInterface } from '../shared/interfaces/cell.interface';
-import { DIGITS } from '../shared/constants/digits';
+import { CellInterface } from '../../shared/interfaces/cell.interface';
+import { DIGITS } from '../../shared/constants/digits';
 
 @Component({
   selector: 'app-sudoku-grid',
