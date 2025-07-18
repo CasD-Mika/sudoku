@@ -7,6 +7,8 @@ import { SudokuFetchInterface } from '../../shared/interfaces/sudoku-fetch.inter
 import { DialogService } from '../../core/services/dialog.service';
 import { RestartDialogComponent } from '../../shared/components/restart-dialog/restart-dialog.component';
 import { NewGameDialogComponent } from '../../shared/components/new-game-dialog/new-game-dialog.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-sudoku-game',
@@ -23,14 +25,25 @@ export class SudokuGameComponent {
 
   @Input() sudokuFetch: SudokuFetchInterface | null = null;
 
+  finished$ = this.gameService.finished$.pipe(
+    filter(finished => finished === true),
+    takeUntilDestroyed()
+  );
+
   showResetButtonRow = false;
+
+  ngOnInit() {
+    this.finished$.subscribe(() => {
+      this.dialogService.open(NewGameDialogComponent, { title: 'Glückwunsch 🎉', message: 'Du hast das Sudoku erfolgreich gelöst. Möchtest du ein neues Spiel starten?' });
+    });
+  }
 
   openRestartDialog(){
     this.dialogService.open(RestartDialogComponent);
   }
 
   openNewGameDialog(){
-    this.dialogService.open(NewGameDialogComponent);
+    this.dialogService.open(NewGameDialogComponent, { title: 'Neues Spiel', message: 'Wollen Sie wirklich ein neues Spiel starten? Der aktuelle Spielfortschritt geht verloren.' });
   }
 
   newGame(){

@@ -4,7 +4,7 @@ import { BehaviorSubject, catchError, concatWith, map, mergeMap, Observable, of,
 import { DosukuHttpService } from "./dosuku-http.service";
 import { SudokuFetchInterface } from "../interfaces/sudoku-fetch.interface";
 import { CellInterface } from "../interfaces/cell.interface";
-import { Difficulties } from "../components/new-game-dialog/new-game-dialog.component";
+import { DifficultyType } from "../types/difficulty.type";
 
 @Injectable()
 export class GameService {
@@ -14,7 +14,7 @@ export class GameService {
   // subjects
   private loadSudokuSubject = new Subject<void>();
   private invalidInputTriggerSubject = new Subject<CellInterface | null>();
-  private difficultySubject = new BehaviorSubject<Difficulties>('Medium');
+  private difficultySubject = new BehaviorSubject<DifficultyType>('Medium');
   private sudokuSubject = new BehaviorSubject<SudokuInterface | null>(null);
   private selectedCellSubject = new BehaviorSubject<CellInterface | null>(null);
   private numberCountMapSubject = new BehaviorSubject<Map<number, number>>(new Map());
@@ -76,8 +76,7 @@ export class GameService {
             ...sudoku.newboard,
             grids: [{
               ...grid,
-              default: defaultValue,
-              value: grid.solution
+              default: defaultValue
             }]
           }
         };
@@ -91,7 +90,7 @@ export class GameService {
   fillNumberCountMap = () => {
     return (source: Observable<SudokuInterface>) => source.pipe(
       map(sudoku => {
-        const grid = sudoku.newboard.grids[0].solution;
+        const grid = sudoku.newboard.grids[0].value;
         const numberCountMap = new Map<number, number>();
 
         for (let row of grid) {
@@ -125,7 +124,7 @@ export class GameService {
 
   // functions
 
-  setDifficulty(difficulty: Difficulties) {
+  setDifficulty(difficulty: DifficultyType) {
     this.difficultySubject.next(difficulty);
   }
 
@@ -173,6 +172,7 @@ export class GameService {
       const numberCountMap = this.numberCountMapSubject.value;
       const count = numberCountMap.get(value);
       numberCountMap.set(value, count! + 1);
+      this.numberCountMapSubject.next(numberCountMap);
 
       this.sudokuSubject.next(updateSudoku);
       this.setSelectedCell(null);

@@ -2,7 +2,6 @@ import { Component, ElementRef, inject, Type, ViewChild } from '@angular/core';
 import { DialogService } from '../../services/dialog.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NgComponentOutlet } from '@angular/common';
-import { DialogConfigInterface } from '../../interfaces/dialog-config.interface';
 
 @Component({
   selector: 'app-dialog',
@@ -29,8 +28,8 @@ export class DialogComponent {
   );
 
   ngOnInit() {
-    this.open$.subscribe((config: DialogConfigInterface) => {
-      this.currentComponent = config.component;
+    this.open$.subscribe((component: Type<any>) => {
+      this.currentComponent = component;
       this.dialogRef.nativeElement.showModal();
     });
 

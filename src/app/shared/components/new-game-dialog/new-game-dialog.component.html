@@ -1,5 +1,11 @@
-<div class="dialog-title">Neues Spiel</div>
-<p class="padding-10">Wollen Sie wirklich ein neues Spiel starten? Der aktuelle Spielfortschritt geht verloren.</p>
+@if (dialogService.data$ | async; as data) {
+  @if (data.title){
+    <div class="dialog-title">{{data.title}}</div>
+  }
+  @if (data.message){
+    <p class="padding-10">{{data.message}}</p>
+  }
+}
 <div class="row button-group">
   <button class="button blue" [ngClass]="{'inactive': selectedDifficulty !== 'Easy'}" (click)="setDifficulty('Easy')">Einfach</button>
   <button class="button blue" [ngClass]="{'inactive': selectedDifficulty !== 'Medium'}" (click)="setDifficulty('Medium')">Mittel</button>

@@ -1,10 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { DialogService } from '../../../core/services/dialog.service';
 import { GameService } from '../../services/game.service';
-import { NgClass } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import { take } from 'rxjs';
-
-export type Difficulties = 'Easy' | 'Medium' | 'Hard';
+import { DifficultyType } from '../../types/difficulty.type';
 
 @Component({
   selector: 'app-new-game-dialog',
@@ -12,14 +11,14 @@ export type Difficulties = 'Easy' | 'Medium' | 'Hard';
   styleUrl: './new-game-dialog.component.css',
   standalone: true,
   imports: [
-    NgClass
+    NgClass, AsyncPipe
   ]
 })
 export class NewGameDialogComponent {
   dialogService = inject(DialogService);
   gameService = inject(GameService);
 
-  selectedDifficulty: Difficulties = 'Medium';
+  selectedDifficulty: DifficultyType = 'Medium';
 
   getCurrentDifficulty$ = this.gameService.difficulty$.pipe(
     take(1)
@@ -29,7 +28,7 @@ export class NewGameDialogComponent {
     this.getCurrentDifficulty$.subscribe(difficulty => this.selectedDifficulty = difficulty);
   }
 
-  setDifficulty(difficulty: Difficulties) {
+  setDifficulty(difficulty: DifficultyType) {
     this.selectedDifficulty = difficulty;
   }
 

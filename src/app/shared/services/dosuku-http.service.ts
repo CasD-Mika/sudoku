@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Difficulties } from '../components/new-game-dialog/new-game-dialog.component';
+import { DifficultyType } from '../types/difficulty.type';
 
 @Injectable()
 export class DosukuHttpService {
@@ -16,7 +16,7 @@ export class DosukuHttpService {
    * @param id - Die ID der benötigten Entität
    * @return gibt ein Observable vom Typ T (BaseModel)
    */
-  public getSingle<T>(difficulty: Difficulties): Observable<T> {
+  public getSingle<T>(difficulty: DifficultyType): Observable<T> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8'
     });
