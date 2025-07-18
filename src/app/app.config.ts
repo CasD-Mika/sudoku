@@ -1,6 +1,6 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
-import { DosukuHttpService } from './shared/services/dosuku.service';
+import { DosukuHttpService } from './shared/services/dosuku-http.service';
 import { GameService } from './shared/services/game.service';
 import { DialogService } from './core/services/dialog.service';
 

@@ -1,7 +1,7 @@
 import { inject, Injectable } from "@angular/core";
 import { SudokuInterface } from "../interfaces/sudoku.interface";
 import { BehaviorSubject, catchError, concatWith, map, mergeMap, Observable, of, shareReplay, startWith, Subject, switchMap, tap, timer } from "rxjs";
-import { DosukuHttpService } from "./dosuku.service";
+import { DosukuHttpService } from "./dosuku-http.service";
 import { SudokuFetchInterface } from "../interfaces/sudoku-fetch.interface";
 import { CellInterface } from "../interfaces/cell.interface";
 import { Difficulties } from "../components/new-game-dialog/new-game-dialog.component";
