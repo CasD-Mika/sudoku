@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { DialogService } from '../shared/services/dialog.service';
 import { GameService } from '../shared/services/game.service';
 import { NgClass } from '@angular/common';
+import { take } from 'rxjs';
 
 export type Difficulties = 'Easy' | 'Medium' | 'Hard';
 
@@ -20,8 +21,12 @@ export class NewGameDialogComponent {
 
   selectedDifficulty: Difficulties = 'Medium';
 
+  getCurrentDifficulty$ = this.gameService.difficulty$.pipe(
+    take(1)
+  );
+
   ngOnInit() {
-    this.selectedDifficulty = this.gameService.difficulty;
+    this.getCurrentDifficulty$.subscribe(difficulty => this.selectedDifficulty = difficulty);
   }
 
   setDifficulty(difficulty: Difficulties) {
@@ -29,7 +34,7 @@ export class NewGameDialogComponent {
   }
 
   newGame(){
-    this.gameService.difficulty = this.selectedDifficulty;
+    this.gameService.setDifficulty(this.selectedDifficulty);
     this.gameService.newGame();
     this.dialogService.close();
   }

@@ -8,20 +8,36 @@ import { Difficulties } from "../../new-game-dialog/new-game-dialog.component";
 
 @Injectable()
 export class GameService {
+  // injected dependencies
   private dosukuHttpService = inject(DosukuHttpService)
 
-  private loadSudoku$ = new Subject<void>();
+  // subjects
+  private loadSudokuSubject = new Subject<void>();
+  private invalidInputTriggerSubject = new Subject<CellInterface | null>();
+  private difficultySubject = new BehaviorSubject<Difficulties>('Medium');
+  private sudokuSubject = new BehaviorSubject<SudokuInterface | null>(null);
+  private selectedCellSubject = new BehaviorSubject<CellInterface | null>(null);
 
-  difficulty: Difficulties = 'Medium';
+  // observables
 
-  sudokuSubject = new BehaviorSubject<SudokuInterface | null>(null);
+  get difficulty$() {
+    return this.difficultySubject.asObservable();
+  }
 
-  sudokuFetch$: Observable<SudokuFetchInterface> = this.loadSudoku$.pipe(
+  get sudoku$(){
+    return this.sudokuSubject.asObservable();
+  }
+
+  get selectedCell$(){
+    return this.selectedCellSubject.asObservable();
+  }
+
+  sudokuFetch$: Observable<SudokuFetchInterface> = this.loadSudokuSubject.pipe(
     startWith(void 0),
     switchMap(() =>
       of(<SudokuFetchInterface>{ sudoku: null, loading: true, error: null }).pipe(
         concatWith(
-          this.dosukuHttpService.getSingle<SudokuInterface>(this.difficulty).pipe(
+          this.dosukuHttpService.getSingle<SudokuInterface>(this.difficultySubject.value).pipe(
             map(sudoku => {
               const grid = sudoku.newboard.grids[0];
               const defaultValue = structuredClone(grid.value);
@@ -48,9 +64,24 @@ export class GameService {
     shareReplay(1)
   );
 
+  invalidInput$: Observable<CellInterface | null> = this.invalidInputTriggerSubject.pipe(
+    switchMap(input => {
+      if (!input) {
+        return of(null);
+      }
+      else {
+        return timer(800).pipe(
+          startWith(input),
+          map(t => t === 0 ? null : input)
+        )
+      }
+    })
+  );
 
-  get sudoku$(){
-    return this.sudokuSubject.asObservable();
+  // functions
+
+  setDifficulty(difficulty: Difficulties) {
+    this.difficultySubject.next(difficulty);
   }
 
   updateCellWithSelected(value: number) {
@@ -60,6 +91,16 @@ export class GameService {
     if (selectedCell.number === 0){
       this.updateCell(selectedCell.rowIndex, selectedCell.columnIndex, value);
     }
+  }
+
+  numberFinished(value: number): boolean {
+    if (!this.sudokuSubject.value) {
+      return false;
+    }
+
+    const grid = this.sudokuSubject.value.newboard.grids[0].value;
+
+    return grid.flat().filter(num => num === value).length === 9;
   }
 
   updateCell(rowIndex: number, columnIndex: number, value: number) {
@@ -86,33 +127,17 @@ export class GameService {
 
       this.sudokuSubject.next(updateSudoku);
       this.setSelectedCell(null);
-      this.invalidInputTrigger.next(null);
+      this.invalidInputTriggerSubject.next(null);
     }
     else {
-      this.invalidInputTrigger.next(<CellInterface | null>{ rowIndex: rowIndex, columnIndex: columnIndex, number: value });
+      this.invalidInputTriggerSubject.next(<CellInterface | null>{ rowIndex: rowIndex, columnIndex: columnIndex, number: value });
     }
   }
 
-  private invalidInputTrigger = new Subject<CellInterface | null>();
-
-  invalidInput$: Observable<CellInterface | null> = this.invalidInputTrigger.pipe(
-  switchMap(input => {
-    if (!input) {
-      return of(null);
-    }
-    else {
-      return timer(800).pipe(
-        startWith(input),
-        map(t => t === 0 ? null : input)
-      )
-    }
-  })
-);
-
   newGame() {
-    this.loadSudoku$.next();
+    this.loadSudokuSubject.next();
     this.selectedCellSubject.next(null);
-    this.invalidInputTrigger.next(null);
+    this.invalidInputTriggerSubject.next(null);
   }
 
   restartGame() {
@@ -124,17 +149,15 @@ export class GameService {
 
     this.sudokuSubject.next(sudoku);
     this.selectedCellSubject.next(null);
-    this.invalidInputTrigger.next(null);
-  }
-
-  private selectedCellSubject: BehaviorSubject<CellInterface | null> = new BehaviorSubject<CellInterface | null>(null);
-
-  get selectedCell$(){
-    return this.selectedCellSubject.asObservable();
+    this.invalidInputTriggerSubject.next(null);
   }
 
   setSelectedCell(cell: CellInterface | null){
-    this.invalidInputTrigger.next(null);
+    if (cell && this.numberFinished(cell.number)){
+      return;
+    }
+
+    this.invalidInputTriggerSubject.next(null);
 
     if (!cell){
       this.selectedCellSubject.next(null);

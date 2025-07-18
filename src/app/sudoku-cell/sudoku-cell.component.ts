@@ -15,4 +15,5 @@ export class SudokuCellComponent {
   @Input({required: true}) selected!: boolean;
   @Input({required: true}) marked!: boolean;
   @Input({required: true}) invalid!: boolean;
+  @Input() numberFinished: boolean = false;
 }

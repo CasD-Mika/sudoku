@@ -31,15 +31,17 @@ export class NumberSelectorComponent {
   }
 
   onClick(number: number, selectedCell: CellInterface | null){
-    if (!selectedCell || (selectedCell.rowIndex === -1 && selectedCell.columnIndex === -1)) {
-      this.gameService.setSelectedCell({
-        rowIndex: -1,
-        columnIndex: -1,
-        number
-      });
-    }
-    else {
-      this.gameService.updateCellWithSelected(number);
+    if (!this.gameService.numberFinished(number)){
+      if (!selectedCell || (selectedCell.rowIndex === -1 && selectedCell.columnIndex === -1)) {
+        this.gameService.setSelectedCell({
+          rowIndex: -1,
+          columnIndex: -1,
+          number
+        });
+      }
+      else {
+        this.gameService.updateCellWithSelected(number);
+      }
     }
   }
 }

@@ -26,6 +26,10 @@
   text-decoration: line-through;
 }
 
+.cell-finished{
+  background-color: rgb(127, 127, 127) !important;
+}
+
 .cell-0  { background-color: rgb(127, 127, 127); }
 .cell-1  { background-color: rgb(149, 8, 8); }
 .cell-2  { background-color: orange; }

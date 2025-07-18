@@ -1,5 +1,6 @@
 @if({
-  selectedCell: gameService.selectedCell$ | async
+  selectedCell: gameService.selectedCell$ | async,
+  sudoku: gameService.sudoku$| async
 }; as asyncData){
   <div class="column center">
     <div class="row center numbers-row">
@@ -9,6 +10,7 @@
           [selected]="isSelected(number, asyncData.selectedCell)"
           [marked]="false"
           [invalid]="false"
+          [numberFinished]="gameService.numberFinished(number)"
           (click)="onClick(number, asyncData.selectedCell)"/>
       }
     </div>
@@ -19,6 +21,7 @@
           [selected]="isSelected(number, asyncData.selectedCell)"
           [marked]="false"
           [invalid]="false"
+          [numberFinished]="gameService.numberFinished(number)"
           (click)="onClick(number, asyncData.selectedCell)"/>
       }
     </div>
