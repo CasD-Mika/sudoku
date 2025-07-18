@@ -17,6 +17,7 @@ export class GameService {
   private difficultySubject = new BehaviorSubject<Difficulties>('Medium');
   private sudokuSubject = new BehaviorSubject<SudokuInterface | null>(null);
   private selectedCellSubject = new BehaviorSubject<CellInterface | null>(null);
+  private numberCountMapSubject = new BehaviorSubject<Map<number, number>>(new Map());
 
   // observables
 
@@ -32,30 +33,29 @@ export class GameService {
     return this.selectedCellSubject.asObservable();
   }
 
+  get finished$(){
+    return this.numberCountMapSubject.asObservable().pipe(
+      map(numberCountMap => {
+        if (!numberCountMap) return false;
+
+        for (let i = 1; i <= 9; i++) {
+          if (numberCountMap.get(i) !== 9) {
+            return false;
+          }
+        }
+        return true;
+      }
+    ));
+  }
+
   sudokuFetch$: Observable<SudokuFetchInterface> = this.loadSudokuSubject.pipe(
     startWith(void 0),
     switchMap(() =>
       of(<SudokuFetchInterface>{ sudoku: null, loading: true, error: null }).pipe(
         concatWith(
           this.dosukuHttpService.getSingle<SudokuInterface>(this.difficultySubject.value).pipe(
-            map(sudoku => {
-              const grid = sudoku.newboard.grids[0];
-              const defaultValue = structuredClone(grid.value);
-
-              const enrichedSudoku: SudokuInterface = {
-                ...sudoku,
-                newboard: {
-                  ...sudoku.newboard,
-                  grids: [{
-                    ...grid,
-                    default: defaultValue
-                  }]
-                }
-              };
-
-              this.sudokuSubject.next(enrichedSudoku);
-              return <SudokuFetchInterface>{ sudoku: enrichedSudoku, loading: false, error: null };
-            }),
+            this.fillNumberCountMap(),
+            this.enrichSudokuWithDefault(),
             catchError(error => of(<SudokuFetchInterface>{ sudoku: null, loading: false, error }))
           )
         )
@@ -63,6 +63,51 @@ export class GameService {
     ),
     shareReplay(1)
   );
+
+  enrichSudokuWithDefault = () => {
+    return (source: Observable<SudokuInterface>) => source.pipe(
+      map(sudoku => {
+        const grid = sudoku.newboard.grids[0];
+        const defaultValue = structuredClone(grid.value);
+
+        const enrichedSudoku: SudokuInterface = {
+          ...sudoku,
+          newboard: {
+            ...sudoku.newboard,
+            grids: [{
+              ...grid,
+              default: defaultValue,
+              value: grid.solution
+            }]
+          }
+        };
+
+        this.sudokuSubject.next(enrichedSudoku);
+        return <SudokuFetchInterface>{ sudoku: enrichedSudoku, loading: false, error: null };
+      }),
+    );
+  }
+
+  fillNumberCountMap = () => {
+    return (source: Observable<SudokuInterface>) => source.pipe(
+      map(sudoku => {
+        const grid = sudoku.newboard.grids[0].solution;
+        const numberCountMap = new Map<number, number>();
+
+        for (let row of grid) {
+          for (let cell of row) {
+            if (cell !== 0) {
+              numberCountMap.set(cell, (numberCountMap.get(cell) || 0) + 1);
+            }
+          }
+        }
+
+        this.numberCountMapSubject.next(numberCountMap);
+
+        return sudoku;
+      })
+    );
+  }
 
   invalidInput$: Observable<CellInterface | null> = this.invalidInputTriggerSubject.pipe(
     switchMap(input => {
@@ -94,13 +139,13 @@ export class GameService {
   }
 
   numberFinished(value: number): boolean {
-    if (!this.sudokuSubject.value) {
+    if (!this.numberCountMapSubject.value) {
       return false;
     }
 
-    const grid = this.sudokuSubject.value.newboard.grids[0].value;
+    const count = this.numberCountMapSubject.value.get(value);
 
-    return grid.flat().filter(num => num === value).length === 9;
+    return count! === 9;
   }
 
   updateCell(rowIndex: number, columnIndex: number, value: number) {
@@ -124,6 +169,10 @@ export class GameService {
           }]
         }
       };
+
+      const numberCountMap = this.numberCountMapSubject.value;
+      const count = numberCountMap.get(value);
+      numberCountMap.set(value, count! + 1);
 
       this.sudokuSubject.next(updateSudoku);
       this.setSelectedCell(null);
