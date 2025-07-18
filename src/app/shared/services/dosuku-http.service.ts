@@ -22,7 +22,7 @@ export class DosukuHttpService {
     });
 
     const query = `query={newboard(limit:1,difficulty:"${difficulty}"){grids{value,solution,difficulty},results,message}}`;
-    console.log(query);
+
     return this.httpClient
       .get<T>(`${this.baseUrl}?${query}`, { headers })
       .pipe(map(data => data as T));
