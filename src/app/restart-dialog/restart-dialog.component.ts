@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { DialogService } from '../shared/services/dialog.service';
+import { DialogService } from '../core/services/dialog.service';
 import { GameService } from '../shared/services/game.service';
 
 @Component({

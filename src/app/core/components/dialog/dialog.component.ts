@@ -1,8 +1,8 @@
 import { Component, ElementRef, inject, Type, ViewChild } from '@angular/core';
-import { DialogService } from '../shared/services/dialog.service';
+import { DialogService } from '../../services/dialog.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NgComponentOutlet } from '@angular/common';
-import { DialogConfigInterface } from '../shared/interfaces/dialog-config.interface';
+import { DialogConfigInterface } from '../../interfaces/dialog-config.interface';
 
 @Component({
   selector: 'app-dialog',

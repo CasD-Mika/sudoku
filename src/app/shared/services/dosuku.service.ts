@@ -7,7 +7,7 @@ import { Difficulties } from '../../new-game-dialog/new-game-dialog.component';
 
 @Injectable()
 export class DosukuHttpService {
-  private readonly baseUrl = 'http://localhost:3000/api/dosuku';
+  private readonly baseUrl = 'http://192.168.10.10:3000/api/dosuku';
 
   private httpClient = inject(HttpClient);
 

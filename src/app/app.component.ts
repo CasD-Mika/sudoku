@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { SudokuGameComponent } from './sudoku-game/sudoku-game.component';
 import { GameService } from './shared/services/game.service';
 import { AsyncPipe, NgClass } from '@angular/common';
-import { DialogComponent } from "./dialog/dialog.component";
+import { DialogComponent } from './core/components/dialog/dialog.component';
 
 @Component({
   selector: 'app-root',
