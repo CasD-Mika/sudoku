@@ -72,7 +72,6 @@ html, body {
 
 .content {
   flex: 1 1 auto;
-  margin-top: 20px;
 }
 
 .sudoku-title {
@@ -146,4 +145,15 @@ html, body {
 .button-group {
   justify-content: space-around;
   margin: 1rem 0;
+}
+
+.difficulty-text {
+  font-size: 15px;
+}
+
+@media screen and (min-height: 700px){
+  .content {
+    flex: 1 1 auto;
+    margin-top: 20px;
+  }
 }
