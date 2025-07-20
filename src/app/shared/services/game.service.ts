@@ -1,7 +1,6 @@
-import { inject, Injectable } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { SudokuInterface } from "../interfaces/sudoku.interface";
-import { BehaviorSubject, catchError, concatWith, map, mergeMap, Observable, of, shareReplay, startWith, Subject, switchMap, tap, timer } from "rxjs";
-import { SudokuService } from "./sudoku.service";
+import { BehaviorSubject, catchError, concatWith, fromEvent, map, Observable, of, shareReplay, startWith, Subject, switchMap, tap, timer } from "rxjs";
 import { SudokuMetaInterface } from "../interfaces/sudoku-meta.interface";
 import { CellInterface } from "../interfaces/cell.interface";
 import { DifficultyType } from "../types/difficulty.type";
@@ -9,7 +8,7 @@ import { DifficultyType } from "../types/difficulty.type";
 @Injectable()
 export class GameService {
   // injected dependencies
-  private sudokuService = inject(SudokuService)
+  sudokuWorker = new Worker(new URL('../../shared/workers/sudoku.worker.ts', import.meta.url));
 
   // subjects
   private loadSudokuSubject = new Subject<void>();
@@ -50,10 +49,12 @@ export class GameService {
 
   sudokuFetch$: Observable<SudokuMetaInterface> = this.loadSudokuSubject.pipe(
     startWith(void 0),
+    tap(() => this.sudokuWorker.postMessage({ difficulty: this.difficultySubject.value })),
     switchMap(() =>
       of(<SudokuMetaInterface>{ sudoku: null, loading: true, error: null }).pipe(
         concatWith(
-          of(this.sudokuService.getSudoku(this.difficultySubject.value)).pipe(
+          fromEvent<MessageEvent>(this.sudokuWorker, 'message').pipe(
+            map(event => event.data as SudokuInterface),
             this.fillNumberCountMap(),
             this.enrichSudokuWithDefault(),
             catchError(error => {
