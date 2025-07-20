@@ -1,15 +1,15 @@
 import { inject, Injectable } from "@angular/core";
 import { SudokuInterface } from "../interfaces/sudoku.interface";
 import { BehaviorSubject, catchError, concatWith, map, mergeMap, Observable, of, shareReplay, startWith, Subject, switchMap, tap, timer } from "rxjs";
-import { DosukuHttpService } from "./dosuku-http.service";
-import { SudokuFetchInterface } from "../interfaces/sudoku-fetch.interface";
+import { SudokuService } from "./sudoku.service";
+import { SudokuMetaInterface } from "../interfaces/sudoku-meta.interface";
 import { CellInterface } from "../interfaces/cell.interface";
 import { DifficultyType } from "../types/difficulty.type";
 
 @Injectable()
 export class GameService {
   // injected dependencies
-  private dosukuHttpService = inject(DosukuHttpService)
+  private sudokuService = inject(SudokuService)
 
   // subjects
   private loadSudokuSubject = new Subject<void>();
@@ -48,15 +48,18 @@ export class GameService {
     ));
   }
 
-  sudokuFetch$: Observable<SudokuFetchInterface> = this.loadSudokuSubject.pipe(
+  sudokuFetch$: Observable<SudokuMetaInterface> = this.loadSudokuSubject.pipe(
     startWith(void 0),
     switchMap(() =>
-      of(<SudokuFetchInterface>{ sudoku: null, loading: true, error: null }).pipe(
+      of(<SudokuMetaInterface>{ sudoku: null, loading: true, error: null }).pipe(
         concatWith(
-          this.dosukuHttpService.getSingle<SudokuInterface>(this.difficultySubject.value).pipe(
+          of(this.sudokuService.getSudoku(this.difficultySubject.value)).pipe(
             this.fillNumberCountMap(),
             this.enrichSudokuWithDefault(),
-            catchError(error => of(<SudokuFetchInterface>{ sudoku: null, loading: false, error }))
+            catchError(error => {
+              console.error('Error fetching Sudoku:', error);
+              return of(<SudokuMetaInterface>{ sudoku: null, loading: false, error });
+            })
           )
         )
       )
@@ -67,22 +70,27 @@ export class GameService {
   enrichSudokuWithDefault = () => {
     return (source: Observable<SudokuInterface>) => source.pipe(
       map(sudoku => {
-        const grid = sudoku.newboard.grids[0];
+        const grid = sudoku.newboard.grid;
+
+        if (!grid){
+          throw new Error("Grid is null or undefined in enrichSudokuWithDefault");
+        }
+
         const defaultValue = structuredClone(grid.value);
 
         const enrichedSudoku: SudokuInterface = {
           ...sudoku,
           newboard: {
             ...sudoku.newboard,
-            grids: [{
+            grid: {
               ...grid,
               default: defaultValue
-            }]
+            }
           }
         };
 
         this.sudokuSubject.next(enrichedSudoku);
-        return <SudokuFetchInterface>{ sudoku: enrichedSudoku, loading: false, error: null };
+        return <SudokuMetaInterface>{ sudoku: enrichedSudoku, loading: false, error: null };
       }),
     );
   }
@@ -90,10 +98,15 @@ export class GameService {
   fillNumberCountMap = () => {
     return (source: Observable<SudokuInterface>) => source.pipe(
       map(sudoku => {
-        const grid = sudoku.newboard.grids[0].value;
+        const grid = sudoku.newboard.grid;
+
+        if (!grid){
+          throw new Error("Grid is null or undefined in fillNumberCountMap");
+        }
+
         const numberCountMap = new Map<number, number>();
 
-        for (let row of grid) {
+        for (let row of grid.value) {
           for (let cell of row) {
             if (cell !== 0) {
               numberCountMap.set(cell, (numberCountMap.get(cell) || 0) + 1);
@@ -151,21 +164,23 @@ export class GameService {
     const sudoku = this.sudokuSubject.value;
     if (!sudoku) return;
 
-    const grid = sudoku.newboard.grids[0];
+    const grid = sudoku.newboard.grid;
+
+    if (!grid || !grid.value) return;
 
     if (grid.solution[rowIndex][columnIndex] === value) {
       const updateSudoku: SudokuInterface = {
         ...sudoku,
         newboard: {
           ...sudoku.newboard,
-          grids: [{
+          grid: {
             ...grid,
             value: grid.value.map((rowCells, rIndex) =>
               rowCells.map((cell, cIndex) =>
                 rIndex === rowIndex && cIndex === columnIndex ? value : cell
               )
             )
-          }]
+          }
         }
       };
 
@@ -193,7 +208,10 @@ export class GameService {
     const sudoku = this.sudokuSubject.value;
     if (!sudoku) return;
 
-    const grid = sudoku.newboard.grids[0];
+    const grid = sudoku.newboard.grid;
+
+    if (!grid || !grid.value) return;
+
     grid.value = structuredClone(grid.default);
 
     this.sudokuSubject.next(sudoku);

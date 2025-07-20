@@ -3,7 +3,7 @@ import { SudokuGridComponent } from '../sudoku-grid/sudoku-grid.component';
 import { GameService } from '../../shared/services/game.service';
 import { LoadingComponent } from "../../shared/components/loading/loading.component";
 import { NumberSelectorComponent } from "../number-selector/number-selector.component";
-import { SudokuFetchInterface } from '../../shared/interfaces/sudoku-fetch.interface';
+import { SudokuMetaInterface } from '../../shared/interfaces/sudoku-meta.interface';
 import { DialogService } from '../../core/services/dialog.service';
 import { RestartDialogComponent } from '../../shared/components/restart-dialog/restart-dialog.component';
 import { NewGameDialogComponent } from '../../shared/components/new-game-dialog/new-game-dialog.component';
@@ -23,7 +23,7 @@ export class SudokuGameComponent {
   gameService = inject(GameService);
   dialogService = inject(DialogService);
 
-  @Input() sudokuFetch: SudokuFetchInterface | null = null;
+  @Input() sudokuFetch: SudokuMetaInterface | null = null;
 
   finished$ = this.gameService.finished$.pipe(
     filter(finished => finished === true),

@@ -4,8 +4,8 @@
       selectedCell: gameService.selectedCell$ | async,
       invalidInput: gameService.invalidInput$ | async
      }; as asyncData) {
-      @if (sudoku.newboard && sudoku.newboard.grids && sudoku.newboard.grids.length === 1){
-        @for (row of sudoku.newboard.grids[0].value; track $index; let rowIndex = $index){
+      @if (sudoku.newboard && sudoku.newboard.grid){
+        @for (row of sudoku.newboard.grid.value; track $index; let rowIndex = $index){
           <div class="row">
             @for (column of row; track $index; let columnIndex = $index){
               <app-sudoku-cell
