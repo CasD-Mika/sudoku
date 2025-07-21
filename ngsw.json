@@ -1,0 +1,89 @@
+{
+  "configVersion": 1,
+  "timestamp": 1753107056387,
+  "index": "/sudoku/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/sudoku/favicon.ico",
+        "/sudoku/index.html",
+        "/sudoku/main-XFNDCHXU.js",
+        "/sudoku/manifest.webmanifest",
+        "/sudoku/polyfills-FFHMD2TL.js",
+        "/sudoku/styles-SE23OZ5U.css",
+        "/sudoku/worker-A3BQPX4B.js"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/sudoku/apple-touch-icon.png",
+        "/sudoku/icons/icon-128x128.png",
+        "/sudoku/icons/icon-144x144.png",
+        "/sudoku/icons/icon-152x152.png",
+        "/sudoku/icons/icon-192x192.png",
+        "/sudoku/icons/icon-384x384.png",
+        "/sudoku/icons/icon-512x512.png",
+        "/sudoku/icons/icon-72x72.png",
+        "/sudoku/icons/icon-96x96.png",
+        "/sudoku/logo.png",
+        "/sudoku/screenshots/sudoku-home.png",
+        "/sudoku/screenshots/sudoku-mobile.png"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/sudoku/apple-touch-icon.png": "a57a5dbc65ae44b2f71d32c299eead25025ecca7",
+    "/sudoku/favicon.ico": "1139ab3a71784db1501216fa5bf8ca6a9a34b936",
+    "/sudoku/icons/icon-128x128.png": "583cd1ef5dba9ecaf472ac8d875c31f13f4dd0b3",
+    "/sudoku/icons/icon-144x144.png": "8121b560f10431a8ad8302db0f60cbb4772e616c",
+    "/sudoku/icons/icon-152x152.png": "fca23a972d31ec1f41bfe80468ffbe1505a8e1be",
+    "/sudoku/icons/icon-192x192.png": "16398303945c8ca89905d126b7c9c7e647ba4a64",
+    "/sudoku/icons/icon-384x384.png": "13a08c0bffa0933db1c214dbe6243cd64afabb31",
+    "/sudoku/icons/icon-512x512.png": "d36d7e6a359a66eb382e67e205988065e57bb55b",
+    "/sudoku/icons/icon-72x72.png": "5adfda5537719543901f27220e46ab65d9adda2e",
+    "/sudoku/icons/icon-96x96.png": "d609c36621da61dbc5e5e1c0bbbc5fae94a7772e",
+    "/sudoku/index.html": "b2efa3d9f27cc21413ccecef4bb12cf6aa942ac6",
+    "/sudoku/logo.png": "bf14ea2fc1f4213e69a85fa236ff976b74131fb7",
+    "/sudoku/main-XFNDCHXU.js": "95d15c013ab8a7e6409264cd1d56674958408797",
+    "/sudoku/manifest.webmanifest": "766b96c60f7747645fa6ec889235c31a74290a6d",
+    "/sudoku/polyfills-FFHMD2TL.js": "f49b49a155bc7d192db62a4c15d0a612b460a667",
+    "/sudoku/screenshots/sudoku-home.png": "e8830f7488d44798b067520906297b726722b979",
+    "/sudoku/screenshots/sudoku-mobile.png": "cf9f94a02ed41e74f9b426ec0c86c1c02ea2d31c",
+    "/sudoku/styles-SE23OZ5U.css": "88556046b3ef8754f7866f2eaf0b3ea7ca4936c0",
+    "/sudoku/worker-A3BQPX4B.js": "7f7eeecbd5dbff6f250453dedeab3cbbd5a75e1f"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ],
+  "navigationRequestStrategy": "performance"
+}
