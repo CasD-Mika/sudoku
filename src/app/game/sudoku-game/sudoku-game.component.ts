@@ -46,7 +46,7 @@ export class SudokuGameComponent {
     this.dialogService.open(NewGameDialogComponent, { title: 'Neues Spiel', message: 'Wollen Sie wirklich ein neues Spiel starten? Der aktuelle Spielfortschritt geht verloren.' });
   }
 
-  newGame(){
-    this.gameService.newGame();
+  async newGame(){
+    await this.gameService.newGame();
   }
 }

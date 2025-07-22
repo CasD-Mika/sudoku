@@ -30,7 +30,7 @@ export class NumberSelectorComponent {
     return selectedCell !== null && selectedCell.number === number;
   }
 
-  onClick(number: number, selectedCell: CellInterface | null){
+  async onClick(number: number, selectedCell: CellInterface | null){
     if (!this.gameService.numberFinished(number)){
       if (!selectedCell || (selectedCell.rowIndex === -1 && selectedCell.columnIndex === -1)) {
         this.gameService.setSelectedCell({
@@ -40,7 +40,7 @@ export class NumberSelectorComponent {
         });
       }
       else {
-        this.gameService.updateCellWithSelected(number);
+        await this.gameService.updateCellWithSelected(number);
       }
     }
   }

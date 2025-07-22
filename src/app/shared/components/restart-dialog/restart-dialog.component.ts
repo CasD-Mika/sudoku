@@ -13,8 +13,8 @@ export class RestartDialogComponent {
   dialogService = inject(DialogService);
   gameService = inject(GameService);
 
-  restart(){
-    this.gameService.restartGame();
+  async restartGame(){
+    await this.gameService.restartGame();
     this.dialogService.close();
   }
 

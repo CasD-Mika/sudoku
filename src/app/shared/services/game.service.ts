@@ -1,14 +1,19 @@
-import { Injectable } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
 import { SudokuInterface } from "../interfaces/sudoku.interface";
-import { BehaviorSubject, catchError, concatWith, fromEvent, map, Observable, of, shareReplay, startWith, Subject, switchMap, tap, timer } from "rxjs";
+import { BehaviorSubject, catchError, concatWith, from, fromEvent, map, mergeMap, Observable, of, shareReplay, startWith, Subject, switchMap, timer } from "rxjs";
 import { SudokuMetaInterface } from "../interfaces/sudoku-meta.interface";
 import { CellInterface } from "../interfaces/cell.interface";
 import { DifficultyType } from "../types/difficulty.type";
+import { IndexedDBService } from "./indexed-db.service";
+import { DialogService } from "../../core/services/dialog.service";
+import { DbSudokuDialogComponent } from "../components/db-sudoku-dialog/db-sudoku-dialog.component";
 
 @Injectable()
 export class GameService {
   // injected dependencies
   sudokuWorker = new Worker(new URL('../../shared/workers/sudoku.worker.ts', import.meta.url));
+  indexedDbService = inject(IndexedDBService);
+  dialogService = inject(DialogService);
 
   // subjects
   private loadSudokuSubject = new Subject<void>();
@@ -49,24 +54,44 @@ export class GameService {
 
   sudokuFetch$: Observable<SudokuMetaInterface> = this.loadSudokuSubject.pipe(
     startWith(void 0),
-    tap(() => this.sudokuWorker.postMessage({ difficulty: this.difficultySubject.value })),
     switchMap(() =>
-      of(<SudokuMetaInterface>{ sudoku: null, loading: true, error: null }).pipe(
-        concatWith(
-          fromEvent<MessageEvent>(this.sudokuWorker, 'message').pipe(
-            map(event => event.data as SudokuInterface),
-            this.fillNumberCountMap(),
-            this.enrichSudokuWithDefault(),
-            catchError(error => {
-              console.error('Error fetching Sudoku:', error);
-              return of(<SudokuMetaInterface>{ sudoku: null, loading: false, error });
-            })
-          )
-        )
+      from(this.indexedDbService.getAllData()).pipe(
+        switchMap((dbSudoku: SudokuInterface[]) => {
+          if (dbSudoku && dbSudoku.length > 0) {
+            const sudoku = dbSudoku[0] as SudokuInterface;
+            this.sudokuSubject.next(sudoku);
+            if (sudoku.newboard.grid){
+              this.difficultySubject.next(sudoku.newboard.grid.difficulty);
+            }
+            this.dialogService.open(DbSudokuDialogComponent);
+            return of(<SudokuMetaInterface>{ sudoku, loading: false, error: null });
+          } else {
+            this.sudokuWorker.postMessage({ difficulty: this.difficultySubject.value });
+
+            return of(<SudokuMetaInterface>{ sudoku: null, loading: true, error: null }).pipe(
+              concatWith(
+                fromEvent<MessageEvent>(this.sudokuWorker, 'message').pipe(
+                  map(event => event.data as SudokuInterface),
+                  this.fillNumberCountMap(),
+                  this.enrichSudokuWithDefault(),
+                  mergeMap(sudoku =>
+                    from(this.saveGame(sudoku)).pipe(
+                      map(() => <SudokuMetaInterface>{ sudoku, loading: false, error: null })
+                    )
+                  ),
+                  catchError(error =>
+                    of(<SudokuMetaInterface>{ sudoku: null, loading: false, error })
+                  )
+                )
+              )
+            );
+          }
+        })
       )
     ),
     shareReplay(1)
   );
+
 
   enrichSudokuWithDefault = () => {
     return (source: Observable<SudokuInterface>) => source.pipe(
@@ -90,8 +115,7 @@ export class GameService {
           }
         };
 
-        this.sudokuSubject.next(enrichedSudoku);
-        return <SudokuMetaInterface>{ sudoku: enrichedSudoku, loading: false, error: null };
+        return enrichedSudoku;
       }),
     );
   }
@@ -142,12 +166,12 @@ export class GameService {
     this.difficultySubject.next(difficulty);
   }
 
-  updateCellWithSelected(value: number) {
+  async updateCellWithSelected(value: number) {
     const selectedCell = this.selectedCellSubject.value;
     if (!selectedCell) return;
 
     if (selectedCell.number === 0){
-      this.updateCell(selectedCell.rowIndex, selectedCell.columnIndex, value);
+      await this.updateCell(selectedCell.rowIndex, selectedCell.columnIndex, value);
     }
   }
 
@@ -161,7 +185,7 @@ export class GameService {
     return count! === 9;
   }
 
-  updateCell(rowIndex: number, columnIndex: number, value: number) {
+  async updateCell(rowIndex: number, columnIndex: number, value: number) {
     const sudoku = this.sudokuSubject.value;
     if (!sudoku) return;
 
@@ -190,7 +214,7 @@ export class GameService {
       numberCountMap.set(value, count! + 1);
       this.numberCountMapSubject.next(numberCountMap);
 
-      this.sudokuSubject.next(updateSudoku);
+      await this.saveGame(updateSudoku);
       this.setSelectedCell({ rowIndex: -1, columnIndex: -1, number: value });
       this.invalidInputTriggerSubject.next(null);
     }
@@ -199,13 +223,16 @@ export class GameService {
     }
   }
 
-  newGame() {
+  async newGame() {
+    if (this.sudokuSubject.value && this.sudokuSubject.value.id !== undefined) {
+      await this.indexedDbService.deleteData(this.sudokuSubject.value.id);
+    }
     this.loadSudokuSubject.next();
     this.selectedCellSubject.next(null);
     this.invalidInputTriggerSubject.next(null);
   }
 
-  restartGame() {
+  async restartGame() {
     const sudoku = this.sudokuSubject.value;
     if (!sudoku) return;
 
@@ -214,6 +241,10 @@ export class GameService {
     if (!grid || !grid.value) return;
 
     grid.value = structuredClone(grid.default);
+
+    if (sudoku.id !== undefined) {
+      await this.indexedDbService.updateData(sudoku);
+    }
 
     this.sudokuSubject.next(sudoku);
     this.selectedCellSubject.next(null);
@@ -274,5 +305,17 @@ export class GameService {
 
 
     this.selectedCellSubject.next(cell);
+  }
+
+  async saveGame(sudoku: SudokuInterface) {
+    if (sudoku.id === undefined){
+      const id = await this.indexedDbService.addData(sudoku);
+      sudoku.id = id;
+    }
+    else {
+      await this.indexedDbService.updateData(sudoku);
+    }
+
+    this.sudokuSubject.next(sudoku);
   }
 }

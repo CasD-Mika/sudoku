@@ -32,9 +32,9 @@ export class NewGameDialogComponent {
     this.selectedDifficulty = difficulty;
   }
 
-  newGame(){
+  async newGame(){
     this.gameService.setDifficulty(this.selectedDifficulty);
-    this.gameService.newGame();
+    await this.gameService.newGame();
     this.dialogService.close();
   }
 

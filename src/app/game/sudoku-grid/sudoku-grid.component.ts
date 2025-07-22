@@ -18,11 +18,11 @@ export class SudokuGridComponent {
   gameService = inject(GameService);
 
   @HostListener('window:keydown', ['$event'])
-  buttonPressed(event: KeyboardEvent){
+  async buttonPressed(event: KeyboardEvent){
     if (DIGITS.includes(event.code)) {
       const digitIndex = DIGITS.indexOf(event.code);
       if (digitIndex >= 0) {
-        this.gameService.updateCellWithSelected(digitIndex + 1);
+        await this.gameService.updateCellWithSelected(digitIndex + 1);
       }
     }
   }
