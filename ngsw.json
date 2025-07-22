@@ -1,7 +1,7 @@
 {
   "configVersion": 1,
-  "timestamp": 1753177747143,
-  "index": "./index.html",
+  "timestamp": 1753177803742,
+  "index": "/index.html",
   "assetGroups": [
     {
       "name": "app",
@@ -11,13 +11,13 @@
         "ignoreVary": true
       },
       "urls": [
-        "./favicon.ico",
-        "./index.html",
-        "./main-XFNDCHXU.js",
-        "./manifest.webmanifest",
-        "./polyfills-FFHMD2TL.js",
-        "./styles-SE23OZ5U.css",
-        "./worker-A3BQPX4B.js"
+        "/favicon.ico",
+        "/index.html",
+        "/main-XFNDCHXU.js",
+        "/manifest.webmanifest",
+        "/polyfills-FFHMD2TL.js",
+        "/styles-SE23OZ5U.css",
+        "/worker-A3BQPX4B.js"
       ],
       "patterns": []
     },
@@ -29,43 +29,43 @@
         "ignoreVary": true
       },
       "urls": [
-        "./apple-touch-icon.png",
-        "./icons/icon-128x128.png",
-        "./icons/icon-144x144.png",
-        "./icons/icon-152x152.png",
-        "./icons/icon-192x192.png",
-        "./icons/icon-384x384.png",
-        "./icons/icon-512x512.png",
-        "./icons/icon-72x72.png",
-        "./icons/icon-96x96.png",
-        "./logo.png",
-        "./screenshots/sudoku-home.png",
-        "./screenshots/sudoku-mobile.png"
+        "/apple-touch-icon.png",
+        "/icons/icon-128x128.png",
+        "/icons/icon-144x144.png",
+        "/icons/icon-152x152.png",
+        "/icons/icon-192x192.png",
+        "/icons/icon-384x384.png",
+        "/icons/icon-512x512.png",
+        "/icons/icon-72x72.png",
+        "/icons/icon-96x96.png",
+        "/logo.png",
+        "/screenshots/sudoku-home.png",
+        "/screenshots/sudoku-mobile.png"
       ],
       "patterns": []
     }
   ],
   "dataGroups": [],
   "hashTable": {
-    "./apple-touch-icon.png": "a57a5dbc65ae44b2f71d32c299eead25025ecca7",
-    "./favicon.ico": "1139ab3a71784db1501216fa5bf8ca6a9a34b936",
-    "./icons/icon-128x128.png": "583cd1ef5dba9ecaf472ac8d875c31f13f4dd0b3",
-    "./icons/icon-144x144.png": "8121b560f10431a8ad8302db0f60cbb4772e616c",
-    "./icons/icon-152x152.png": "fca23a972d31ec1f41bfe80468ffbe1505a8e1be",
-    "./icons/icon-192x192.png": "16398303945c8ca89905d126b7c9c7e647ba4a64",
-    "./icons/icon-384x384.png": "13a08c0bffa0933db1c214dbe6243cd64afabb31",
-    "./icons/icon-512x512.png": "d36d7e6a359a66eb382e67e205988065e57bb55b",
-    "./icons/icon-72x72.png": "5adfda5537719543901f27220e46ab65d9adda2e",
-    "./icons/icon-96x96.png": "d609c36621da61dbc5e5e1c0bbbc5fae94a7772e",
-    "./index.html": "6474f5a65135fb1c9eaa80058a60c978f909ea74",
-    "./logo.png": "bf14ea2fc1f4213e69a85fa236ff976b74131fb7",
-    "./main-XFNDCHXU.js": "95d15c013ab8a7e6409264cd1d56674958408797",
-    "./manifest.webmanifest": "766b96c60f7747645fa6ec889235c31a74290a6d",
-    "./polyfills-FFHMD2TL.js": "f49b49a155bc7d192db62a4c15d0a612b460a667",
-    "./screenshots/sudoku-home.png": "e8830f7488d44798b067520906297b726722b979",
-    "./screenshots/sudoku-mobile.png": "cf9f94a02ed41e74f9b426ec0c86c1c02ea2d31c",
-    "./styles-SE23OZ5U.css": "88556046b3ef8754f7866f2eaf0b3ea7ca4936c0",
-    "./worker-A3BQPX4B.js": "7f7eeecbd5dbff6f250453dedeab3cbbd5a75e1f"
+    "/apple-touch-icon.png": "a57a5dbc65ae44b2f71d32c299eead25025ecca7",
+    "/favicon.ico": "1139ab3a71784db1501216fa5bf8ca6a9a34b936",
+    "/icons/icon-128x128.png": "583cd1ef5dba9ecaf472ac8d875c31f13f4dd0b3",
+    "/icons/icon-144x144.png": "8121b560f10431a8ad8302db0f60cbb4772e616c",
+    "/icons/icon-152x152.png": "fca23a972d31ec1f41bfe80468ffbe1505a8e1be",
+    "/icons/icon-192x192.png": "16398303945c8ca89905d126b7c9c7e647ba4a64",
+    "/icons/icon-384x384.png": "13a08c0bffa0933db1c214dbe6243cd64afabb31",
+    "/icons/icon-512x512.png": "d36d7e6a359a66eb382e67e205988065e57bb55b",
+    "/icons/icon-72x72.png": "5adfda5537719543901f27220e46ab65d9adda2e",
+    "/icons/icon-96x96.png": "d609c36621da61dbc5e5e1c0bbbc5fae94a7772e",
+    "/index.html": "e6e5f3742fee7ec0fa5399b2d4b34fd841828d7a",
+    "/logo.png": "bf14ea2fc1f4213e69a85fa236ff976b74131fb7",
+    "/main-XFNDCHXU.js": "95d15c013ab8a7e6409264cd1d56674958408797",
+    "/manifest.webmanifest": "766b96c60f7747645fa6ec889235c31a74290a6d",
+    "/polyfills-FFHMD2TL.js": "f49b49a155bc7d192db62a4c15d0a612b460a667",
+    "/screenshots/sudoku-home.png": "e8830f7488d44798b067520906297b726722b979",
+    "/screenshots/sudoku-mobile.png": "cf9f94a02ed41e74f9b426ec0c86c1c02ea2d31c",
+    "/styles-SE23OZ5U.css": "88556046b3ef8754f7866f2eaf0b3ea7ca4936c0",
+    "/worker-A3BQPX4B.js": "7f7eeecbd5dbff6f250453dedeab3cbbd5a75e1f"
   },
   "navigationUrls": [
     {
