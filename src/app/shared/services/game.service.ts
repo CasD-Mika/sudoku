@@ -191,7 +191,7 @@ export class GameService {
       this.numberCountMapSubject.next(numberCountMap);
 
       this.sudokuSubject.next(updateSudoku);
-      this.setSelectedCell(null);
+      this.setSelectedCell({ rowIndex: -1, columnIndex: -1, number: value });
       this.invalidInputTriggerSubject.next(null);
     }
     else {
