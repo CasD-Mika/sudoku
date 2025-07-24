@@ -3,6 +3,7 @@ import { GameService } from './shared/services/game.service';
 import { DialogService } from './core/services/dialog.service';
 import { provideServiceWorker } from '@angular/service-worker';
 import { IndexedDBService } from './shared/services/indexed-db.service';
+import { SwUpdateService } from './shared/services/sw-update.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -13,6 +14,7 @@ export const appConfig: ApplicationConfig = {
     }),
     GameService,
     DialogService,
-    IndexedDBService
+    IndexedDBService,
+    SwUpdateService
   ]
 };
