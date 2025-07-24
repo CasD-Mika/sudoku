@@ -59,12 +59,17 @@ export class GameService {
         switchMap((dbSudoku: SudokuInterface[]) => {
           if (dbSudoku && dbSudoku.length > 0) {
             const sudoku = dbSudoku[0] as SudokuInterface;
-            this.sudokuSubject.next(sudoku);
-            if (sudoku.newboard.grid){
-              this.difficultySubject.next(sudoku.newboard.grid.difficulty);
-            }
-            this.dialogService.open(DbSudokuDialogComponent);
-            return of(<SudokuMetaInterface>{ sudoku, loading: false, error: null });
+            return of(sudoku).pipe(
+              this.fillNumberCountMap(),
+              map(sudoku => {
+                this.sudokuSubject.next(sudoku);
+                if (sudoku.newboard.grid){
+                  this.difficultySubject.next(sudoku.newboard.grid.difficulty);
+                }
+                this.dialogService.open(DbSudokuDialogComponent);
+                return (<SudokuMetaInterface>{ sudoku, loading: false, error: null });
+              })
+            );
           } else {
             this.sudokuWorker.postMessage({ difficulty: this.difficultySubject.value });
 
