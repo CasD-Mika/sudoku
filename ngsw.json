@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1753341269120,
+  "timestamp": 1753341406346,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -13,7 +13,7 @@
       "urls": [
         "/favicon.ico",
         "/index.html",
-        "/main-ZSEGVMGB.js",
+        "/main-62P4OTE7.js",
         "/manifest.webmanifest",
         "/polyfills-FFHMD2TL.js",
         "/styles-SE23OZ5U.css",
@@ -57,9 +57,9 @@
     "/icons/icon-512x512.png": "d36d7e6a359a66eb382e67e205988065e57bb55b",
     "/icons/icon-72x72.png": "5adfda5537719543901f27220e46ab65d9adda2e",
     "/icons/icon-96x96.png": "d609c36621da61dbc5e5e1c0bbbc5fae94a7772e",
-    "/index.html": "3eb4d201000bdc8267b95683446450a1385b6118",
+    "/index.html": "727a9c272ad5cd8a365832c7ef19a4bc2de677a3",
     "/logo.png": "bf14ea2fc1f4213e69a85fa236ff976b74131fb7",
-    "/main-ZSEGVMGB.js": "4c72ee5458bbfa1b7eaee433cdc728c9e4f4abf5",
+    "/main-62P4OTE7.js": "4678a7c7f776796214ab589fc97034f23408f514",
     "/manifest.webmanifest": "766b96c60f7747645fa6ec889235c31a74290a6d",
     "/polyfills-FFHMD2TL.js": "f49b49a155bc7d192db62a4c15d0a612b460a667",
     "/screenshots/sudoku-home.png": "e8830f7488d44798b067520906297b726722b979",
