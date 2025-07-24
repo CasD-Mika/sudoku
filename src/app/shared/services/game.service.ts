@@ -60,7 +60,7 @@ export class GameService {
           if (dbSudoku && dbSudoku.length > 0) {
             const sudoku = dbSudoku[0] as SudokuInterface;
             return of(sudoku).pipe(
-              this.fillNumberCountMap(),
+              this.fillNumberCountMapOperator(),
               map(sudoku => {
                 this.sudokuSubject.next(sudoku);
                 if (sudoku.newboard.grid){
@@ -77,7 +77,7 @@ export class GameService {
               concatWith(
                 fromEvent<MessageEvent>(this.sudokuWorker, 'message').pipe(
                   map(event => event.data as SudokuInterface),
-                  this.fillNumberCountMap(),
+                  this.fillNumberCountMapOperator(),
                   this.enrichSudokuWithDefault(),
                   mergeMap(sudoku =>
                     from(this.saveGame(sudoku)).pipe(
@@ -125,30 +125,34 @@ export class GameService {
     );
   }
 
-  fillNumberCountMap = () => {
+  fillNumberCountMapOperator = () => {
     return (source: Observable<SudokuInterface>) => source.pipe(
       map(sudoku => {
-        const grid = sudoku.newboard.grid;
-
-        if (!grid){
-          throw new Error("Grid is null or undefined in fillNumberCountMap");
-        }
-
-        const numberCountMap = new Map<number, number>();
-
-        for (let row of grid.value) {
-          for (let cell of row) {
-            if (cell !== 0) {
-              numberCountMap.set(cell, (numberCountMap.get(cell) || 0) + 1);
-            }
-          }
-        }
-
-        this.numberCountMapSubject.next(numberCountMap);
+        this.fillNumberCountMap(sudoku);
 
         return sudoku;
       })
     );
+  }
+
+  fillNumberCountMap = (sudoku: SudokuInterface) => {
+    const grid = sudoku.newboard.grid;
+
+    if (!grid){
+      throw new Error("Grid is null or undefined in fillNumberCountMap");
+    }
+
+    const numberCountMap = new Map<number, number>();
+
+    for (let row of grid.value) {
+      for (let cell of row) {
+        if (cell !== 0) {
+          numberCountMap.set(cell, (numberCountMap.get(cell) || 0) + 1);
+        }
+      }
+    }
+
+    this.numberCountMapSubject.next(numberCountMap);
   }
 
   invalidInput$: Observable<CellInterface | null> = this.invalidInputTriggerSubject.pipe(
@@ -250,6 +254,8 @@ export class GameService {
     if (!grid || !grid.value) return;
 
     grid.value = structuredClone(grid.default);
+
+    this.fillNumberCountMap(sudoku);
 
     if (sudoku.id !== undefined) {
       await this.indexedDbService.updateData(sudoku);
