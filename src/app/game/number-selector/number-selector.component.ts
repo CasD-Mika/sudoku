@@ -3,6 +3,7 @@ import { SudokuCellComponent } from "../sudoku-cell/sudoku-cell.component";
 import { AsyncPipe } from '@angular/common';
 import { GameService } from '../../shared/services/game.service';
 import { CellInterface } from '../../shared/interfaces/cell.interface';
+import { NumberCountComponent } from "../number-count/number-count.component";
 
 @Component({
   selector: 'app-number-selector',
@@ -10,8 +11,8 @@ import { CellInterface } from '../../shared/interfaces/cell.interface';
   styleUrl: './number-selector.component.css',
   standalone: true,
   imports: [
-    SudokuCellComponent, AsyncPipe
-  ]
+    SudokuCellComponent, AsyncPipe, NumberCountComponent
+]
 })
 export class NumberSelectorComponent {
   gameService = inject(GameService);

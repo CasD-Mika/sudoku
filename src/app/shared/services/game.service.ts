@@ -194,6 +194,21 @@ export class GameService {
     return count! === 9;
   }
 
+  numbersLeft(value: number): number {
+    if (!this.numberCountMapSubject.value) {
+      return 9;
+    }
+
+    const count = this.numberCountMapSubject.value.get(value);
+
+    if (count === undefined) {
+      return 9;
+    }
+    else {
+      return 9 - count;
+    }
+  }
+
   async updateCell(rowIndex: number, columnIndex: number, value: number) {
     const sudoku = this.sudokuSubject.value;
     if (!sudoku) return;

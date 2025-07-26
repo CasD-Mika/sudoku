@@ -20,6 +20,10 @@ html, body {
   &.vertical-center{
     align-items: center;
   }
+
+  &.vertical-end{
+    align-items: flex-end;
+  }
 }
 
 .column {
@@ -32,6 +36,10 @@ html, body {
 
   &.vertical-center{
     justify-content: center;
+  }
+
+  &.vertical-end{
+    justify-content: flex-end;
   }
 }
 
@@ -157,3 +165,22 @@ html, body {
     margin-top: 20px;
   }
 }
+
+.width-15{
+  width: 15px;
+}
+
+.gap-2{
+  gap: 2px;
+}
+
+.cell-0  { background-color: rgb(127, 127, 127); }
+.cell-1  { background-color: rgb(149, 8, 8); }
+.cell-2  { background-color: orange; }
+.cell-3  { background-color: rgb(67, 150, 178); }
+.cell-4  { background-color: rgb(59, 193, 177); }
+.cell-5  { background-color: green; }
+.cell-6  { background-color: rgb(216, 48, 84); }
+.cell-7  { background-color: rgb(46, 46, 185); }
+.cell-8  { background-color: rgb(221, 112, 210); }
+.cell-9  { background-color: purple; }

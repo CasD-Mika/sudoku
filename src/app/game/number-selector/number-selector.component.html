@@ -5,24 +5,44 @@
   <div class="column center">
     <div class="row center numbers-row">
       @for(number of firstRow; track number) {
-        <app-sudoku-cell
-          [cellNumber]="number"
-          [selected]="isSelected(number, asyncData.selectedCell)"
-          [marked]="false"
-          [invalid]="false"
-          [numberFinished]="gameService.numberFinished(number)"
-          (click)="onClick(number, asyncData.selectedCell)"/>
+        <div class="row gap-2">
+          <div class="column vertical-end width-15">
+            @for (_ of [].constructor(this.gameService.numbersLeft(number)); track $index) {
+              <app-number-count
+                class="number-count"
+                [style.z-index]="9-$index"
+                [cellNumber]="number"/>
+              }
+          </div>
+          <app-sudoku-cell
+            [cellNumber]="number"
+            [selected]="isSelected(number, asyncData.selectedCell)"
+            [marked]="false"
+            [invalid]="false"
+            [numberFinished]="gameService.numberFinished(number)"
+            (click)="onClick(number, asyncData.selectedCell)"/>
+        </div>
       }
     </div>
     <div class="row center numbers-row">
       @for(number of secondRow; track number) {
-        <app-sudoku-cell
-          [cellNumber]="number"
-          [selected]="isSelected(number, asyncData.selectedCell)"
-          [marked]="false"
-          [invalid]="false"
-          [numberFinished]="gameService.numberFinished(number)"
-          (click)="onClick(number, asyncData.selectedCell)"/>
+        <div class="row gap-2">
+          <div class="column vertical-end width-15">
+            @for (_ of [].constructor(this.gameService.numbersLeft(number)); track $index) {
+              <app-number-count
+                class="number-count"
+                [style.z-index]="9-$index"
+                [cellNumber]="number"/>
+              }
+          </div>
+          <app-sudoku-cell
+            [cellNumber]="number"
+            [selected]="isSelected(number, asyncData.selectedCell)"
+            [marked]="false"
+            [invalid]="false"
+            [numberFinished]="gameService.numberFinished(number)"
+            (click)="onClick(number, asyncData.selectedCell)"/>
+        </div>
       }
     </div>
   </div>
